@@ -1,7 +1,80 @@
-li a {
-    color: black;
+body {
+    font-family: 'Arial', sans-serif;
+    background: #f0f0f0 url("images/background.png") no-repeat center center fixed;
+    background-size: cover;
 }
 
-body {
-    background: white url("images/background.png") no-repeat;
+/* Links in the list on the index page */
+li a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+li a:hover {
+    color: #2980b9;
+}
+
+/* Poll question heading in results.html and detail.html */
+h1 {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+/* Unordered list in results.html */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Each list item in results.html */
+li {
+    margin-bottom: 10px;
+}
+
+/* "Vote again?" link in results.html */
+a {
+    text-decoration: none;
+    color: #2980b9;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #3498db;
+}
+
+/* Poll choices in detail.html */
+fieldset {
+    border: 2px solid #3498db;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Radio buttons and labels in detail.html */
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+label {
+    color: #333;
+    font-weight: normal;
+}
+
+/* "Vote" button in detail.html */
+input[type="submit"] {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
+    background-color: #2980b9;
 }
