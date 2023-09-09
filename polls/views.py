@@ -4,17 +4,18 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
+
 from .models import Choice, Question
 
 
 def index(request):
     """
-    Displays a list of the latest ten published questions.
+    Displays a list of the latest five published questions.
 
     Returns:
         Rendered HTML page displaying the latest questions.
     """
-    latest_question_list = Question.objects.order_by("-pub_date")[:10]
+    latest_question_list = Question.objects.order_by("-pub_date")[:5]
     context = {"latest_question_list": latest_question_list}
     return render(request, "polls/index.html", context)
 
@@ -79,13 +80,11 @@ class DetailView(generic.DetailView):
         Returns:
             Rendered HTML page displaying the question details or a 404 response.
         """
-        question = self.get_object()
-        now = timezone.now()
-        if question.can_vote():
-            return render(request, 'polls/detail.html', {'question': question})
-        else:
-            # Return a 404 response if the question cannot be voted on
-            raise Http404("Question not found")
+        question = get_object_or_404(Question, pk=kwargs['pk'])
+        if not question.can_vote():
+            messages.error(request, "Voting is not allowed for this poll.")
+            return redirect('polls:index')
+        return render(request, 'polls/detail.html', {'question': question})
 
 
 class ResultsView(generic.DetailView):
@@ -98,25 +97,19 @@ def vote(request, question_id):
 
     # Check if voting is allowed for this question
     if not question.can_vote():
-        return render(
-            request,
-            "polls/detail.html",
-            {
-                "question": question,
-                "error_message": "Voting for this question is not allowed.",
-            },
-        )
+        messages.error(request, "Voting for this question is not allowed.")
+        return redirect('polls:detail', question_id=question.id)
 
     try:
         selected_choice = question.choice_set.get(pk=request.POST["choice"])
     except (KeyError, Choice.DoesNotExist):
         # Re-show the voting form for the question.
+        messages.error(request, "You didn't select a choice.")
         return render(
             request,
             "polls/detail.html",
             {
                 "question": question,
-                "error_message": "You didn't select a choice.",
             },
         )
     else:
