@@ -71,7 +71,13 @@ class DetailView(generic.DetailView):
 
     def get(self, request, *args, **kwargs):
         """
-        Check if the question is available to vote, and redirect if not.
+        Checks if the question is available to vote, and redirects if not.
+
+        Args:
+            request: The HTTP request object.
+
+        Returns:
+            Rendered HTML page displaying the question details or a 404 response.
         """
         question = self.get_object()
         now = timezone.now()
@@ -89,10 +95,22 @@ class ResultsView(generic.DetailView):
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
+
+    # Check if voting is allowed for this question
+    if not question.can_vote():
+        return render(
+            request,
+            "polls/detail.html",
+            {
+                "question": question,
+                "error_message": "Voting for this question is not allowed.",
+            },
+        )
+
     try:
         selected_choice = question.choice_set.get(pk=request.POST["choice"])
     except (KeyError, Choice.DoesNotExist):
-        # Redisplay the question voting form.
+        # Re-show the voting form for the question.
         return render(
             request,
             "polls/detail.html",

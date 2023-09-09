@@ -46,13 +46,6 @@ class Question(models.Model):
             return self.pub_date <= now
         return self.pub_date <= now <= self.end_date
 
-    def get_published_questions(self):
-        """
-        Returns a queryset of published questions (pub_date is in the past and end_date is in the future).
-        """
-        now = timezone.now()
-        return self.filter(pub_date__lte=now, end_date__gt=now).order_by('-pub_date')
-
 
 class Choice(models.Model):
     """
