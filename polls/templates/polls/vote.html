@@ -1,0 +1,20 @@
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Vote</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>Vote on the Poll</h1>-->
+
+<!--    <form method="post" action="{% url 'polls:vote' question_id %}">-->
+<!--        {% csrf_token %}-->
+<!--        {% for choice in question.choice_set.all %}-->
+<!--            <input type="radio" name="choice" id="choice{{ choice.id }}" value="{{ choice.id }}">-->
+<!--            <label for="choice{{ choice.id }}">{{ choice.choice_text }}</label><br>-->
+<!--        {% endfor %}-->
+<!--        <input type="submit" value="Vote">-->
+<!--    </form>-->
+
+<!--    <a href="{% url 'polls:detail' question_id %}">Back to poll</a>-->
+<!--</body>-->
+<!--</html>-->

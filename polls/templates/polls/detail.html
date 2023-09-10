@@ -1,20 +1,18 @@
 {% extends "admin/base_site.html" %}
+{% load static %}
 
 {% block content %}
 <div class="container">
     <h1>{{ question.question_text }}</h1>
-    <form action="{% url 'polls:vote' question.id %}" method="post">
+    <form id="vote-form" method="post" action="{% url 'polls:vote' question.id %}">
         {% csrf_token %}
-        <fieldset class="choices">
-            {% for choice in question.choice_set.all %}
-            <div class="choice">
-                <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-                <label for="choice{{ forloop.counter }}" class="choice-label">{{ choice.choice_text }}</label>
-            </div>
-            {% endfor %}
-        </fieldset>
-        <input type="submit" value="Vote" class="vote-button">
+        {% for choice in question.choice_set.all %}
+            <input type="radio" name="choice" id="choice{{ choice.id }}" value="{{ choice.id }}">
+            <label for="choice{{ choice.id }}">{{ choice.choice_text }}</label><br>
+    {% endfor %}
+    <input type="submit" value="Vote" class="vote-button">
     </form>
-</div>
-{% endblock %}
 
+    <a href="{% url 'polls:index' %}" class="back-to-list">Back to List of Polls</a>
+</div>
+{% endblock content %}

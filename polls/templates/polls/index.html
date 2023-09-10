@@ -1,16 +1,30 @@
 {% extends "admin/base_site.html" %}
+{% load static %}
 
 {% block content %}
 <div class="container">
-    <h1>Welcome to the KU Polls </h1>
+    <h1>Welcome to the KU Polls</h1>
     {% if latest_question_list %}
     <ul class="question-list">
         {% for question in latest_question_list %}
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+            <a href="{% url 'polls:results' question.id %}">(Results)</a></li>
         {% endfor %}
     </ul>
     {% else %}
     <p>No polls are available.</p>
     {% endif %}
+
+    {% if messages %}
+    <div class="messages">
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
+
+
