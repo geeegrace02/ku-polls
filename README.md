@@ -1,5 +1,7 @@
 # KU Polls
 
+[![KU Polls](https://github.com/geeegrace02/ku-polls/actions/workflows/ku-polls.yml/badge.svg)](https://github.com/geeegrace02/ku-polls/actions/workflows/ku-polls.yml)
+
 An application to conduct online polls and surveys based
 on the [Django Tutorial project](https://docs.djangoproject.com/en/3.1/intro/tutorial01/), with
 additional features.
