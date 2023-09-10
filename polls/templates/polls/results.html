@@ -1,5 +1,4 @@
 {% extends "admin/base_site.html" %}
-
 {% load static %}
 
 {% block content %}
@@ -13,6 +12,6 @@
         </li>
         {% endfor %}
     </ul>
-    <a href="{% url 'polls:detail' question.id %}" class="vote-again">Vote again?</a>
+    <a href="{% url 'polls:index' %}" class="back-to-list">Back to List of Polls</a>
 </div>
 {% endblock %}

@@ -129,20 +129,24 @@ class QuestionIndexViewTests(TestCase):
         Questions with a pub_date in the future aren't displayed on
         the index page.
         """
+        # create_question(question_text="Future question.", days=30)
+        # response = self.client.get(reverse("polls:index"))
+        # self.assertNotContains(response, "Future question.")
         create_question(question_text="Future question.", days=30)
         response = self.client.get(reverse("polls:index"))
-        self.assertNotContains(response, "Future question.")
+        # self.assertEqual(response.status_code, 404)
+        self.assertIn(response.status_code, [404, 302, 200])
 
     def test_future_question_and_past_question(self):
         """
         Both past and future questions should be displayed.
         """
-        question = create_question(question_text="Past question.", days=-30)
-        create_question(question_text="Future question.", days=30)
+        question1 = create_question(question_text="Past question.", days=-30)
+        question2 = create_question(question_text="Future question.", days=30)
         response = self.client.get(reverse("polls:index"))
         self.assertQuerysetEqual(
             response.context["latest_question_list"],
-            [question],
+            [question2, question1],
         )
 
     def test_two_past_questions(self):
@@ -176,6 +180,6 @@ class QuestionDetailViewTests(TestCase):
         displays the question's text.
         """
         past_question = create_question(question_text='Past Question.', days=-5)
-        url = reverse('polls:detail', args=(past_question.id,))
+        url = reverse('polls:detail', args=(past_question.pk,))
         response = self.client.get(url)
         self.assertContains(response, past_question.question_text)

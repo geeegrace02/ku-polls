@@ -15,23 +15,23 @@ def index(request):
     Returns:
         Rendered HTML page displaying the latest questions.
     """
-    latest_question_list = Question.objects.order_by("-pub_date")[:5]
+    latest_question_list = Question.objects.order_by("-pub_date")[:10]
     context = {"latest_question_list": latest_question_list}
     return render(request, "polls/index.html", context)
 
 
-def detail(request, question_id):
+def detail(request, pk):
     """
         Displays the details of a specific question.
 
         Args:
             request: The HTTP request object.
-            question_id: The ID of the question to display.
+            pk: The ID of the question to display.
 
         Returns:
             Rendered HTML page displaying the question details.
     """
-    question = get_object_or_404(Question, pk=question_id)
+    question = get_object_or_404(Question, pk=pk)
     if not question.can_vote():
         messages.error(request, "Voting is not allowed")
         return redirect('polls:index')
