@@ -9,10 +9,10 @@
         {% for choice in question.choice_set.all %}
             <input type="radio" name="choice" id="choice{{ choice.id }}" value="{{ choice.id }}">
             <label for="choice{{ choice.id }}">{{ choice.choice_text }}</label><br>
-    {% endfor %}
-    <input type="submit" value="Vote" class="vote-button">
+        {% endfor %}
+        <input type="submit" value="Vote" class="vote-button">
     </form>
 
     <a href="{% url 'polls:index' %}" class="back-to-list">Back to List of Polls</a>
 </div>
-{% endblock content %}
+{% endblock %}

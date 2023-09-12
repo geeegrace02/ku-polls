@@ -1,0 +1,9 @@
+<form method="post">
+  {% csrf_token %}
+  <table style="padding: 2ex;">
+    {{ form.as_table }}
+  </table>
+  <button type="submit">Login</button>
+  <!-- If your app redirects the user to login before accessing some pages, then next contains the return URL -->
+  <input type="hidden" name="next" value="{{ next }}" />
+</form>
