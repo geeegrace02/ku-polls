@@ -3,8 +3,12 @@ import datetime
 from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
+from django.contrib.auth.models import User
+# from django.contrib.auth import authenticate
+# from django.contrib.auth import views as auth_views
+from mysite import settings
 
-from .models import Question
+from .models import Question, Choice
 
 
 class QuestionModelTests(TestCase):
@@ -129,12 +133,8 @@ class QuestionIndexViewTests(TestCase):
         Questions with a pub_date in the future aren't displayed on
         the index page.
         """
-        # create_question(question_text="Future question.", days=30)
-        # response = self.client.get(reverse("polls:index"))
-        # self.assertNotContains(response, "Future question.")
         create_question(question_text="Future question.", days=30)
         response = self.client.get(reverse("polls:index"))
-        # self.assertEqual(response.status_code, 404)
         self.assertIn(response.status_code, [404, 302, 200])
 
     def test_future_question_and_past_question(self):
@@ -183,3 +183,90 @@ class QuestionDetailViewTests(TestCase):
         url = reverse('polls:detail', args=(past_question.pk,))
         response = self.client.get(url)
         self.assertContains(response, past_question.question_text)
+
+
+class UserAuthTest(TestCase):
+
+    def setUp(self):
+        # superclass setUp creates a Client object and initializes test database
+        super().setUp()
+        self.username = "testuser"
+        self.password = "FatChance!"
+        self.user1 = User.objects.create_user(
+            username=self.username,
+            password=self.password,
+            email="testuser@nowhere.com"
+        )
+        self.user1.first_name = "Tester"
+        self.user1.save()
+        # we need a poll question to test voting
+        pub_date = timezone.now()  # Set the pub_date to the current time
+        q = Question.objects.create(
+            question_text="First Poll Question",
+            pub_date=pub_date  # Specify the pub_date here
+        )
+        q.save()
+        # a few choices
+        for n in range(1, 4):
+            choice = Choice(choice_text=f"Choice {n}", question=q)
+            choice.save()
+        self.question = q
+
+    def test_logout(self):
+        """A user can logout using the logout url.
+
+        As an authenticated user,
+        when I visit /accounts/logout/
+        then I am logged out
+        and then redirected to the login page.
+        """
+        logout_url = reverse("logout")
+        # Authenticate the user.
+        # We want to logout this user, so we need to associate the
+        # user user with a session.  Setting client.user = ... doesn't work.
+        # Use Client.login(username, password) to do that.
+        # Client.login returns true on success
+        self.assertTrue(
+            self.client.login(username=self.username, password=self.password)
+        )
+        # visit the logout page
+        response = self.client.get(logout_url)
+        self.assertEqual(302, response.status_code)
+        self.assertRedirects(response, reverse(settings.LOGOUT_REDIRECT_URL))
+
+    def test_login_view(self):
+        """A user can login using the login view."""
+        login_url = reverse("login")
+        # Can get the login page
+        response = self.client.get(login_url)
+        self.assertEqual(200, response.status_code)
+        # Can login using a POST request
+        # usage: client.post(url, {'key1":"value", "key2":"value"})
+        form_data = {"username": "testuser",
+                     "password": "FatChance!"
+                     }
+        response = self.client.post(login_url, form_data)
+        # after a successful login, should redirect the browser somewhere
+        self.assertEqual(302, response.status_code)
+        self.assertRedirects(response, reverse(settings.LOGIN_REDIRECT_URL))
+
+    def test_auth_required_to_vote(self):
+        """Authentication is required to submit a vote.
+
+        As an unauthenticated user,
+        when I submit a vote for a question,
+        then I am redirected to the login page
+        or I receive a 403 response (FORBIDDEN)
+        """
+        vote_url = reverse('polls:vote', args=[self.question.id])
+        choice = self.question.choice_set.first()
+        # the polls detail page has a form, each choice is identified by its id
+        form_data = {"choice": f"{choice.id}"}
+        response = self.client.post(vote_url, form_data)
+        # should be redirected to the login page
+        # self.assertEqual(response.status_code, 302)  # could be 303
+        login_with_next = f"{reverse('login')}?next={vote_url}"
+        self.assertRedirects(response, login_with_next)
+
+
+

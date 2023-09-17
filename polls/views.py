@@ -1,11 +1,15 @@
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required  # Import the login_required decorator
+from django.contrib.auth import logout  # Import the logout function
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
 
-from .models import Choice, Question
+from .models import Choice, Question, Vote
 
 
 def index(request):
@@ -70,6 +74,12 @@ class DetailView(generic.DetailView):
     model = Question
     template_name = "polls/detail.html"
 
+    def get_queryset(self):
+        """
+        Excludes any questions that aren't published yet.
+        """
+        return Question.objects.filter(pub_date__lte=timezone.now(), end_date__gte=timezone.now())
+
     def get(self, request, *args, **kwargs):
         """
         Checks if the question is available to vote, and redirects if not.
@@ -92,7 +102,10 @@ class ResultsView(generic.DetailView):
     template_name = "polls/results.html"
 
 
+@login_required
 def vote(request, question_id):
+    """Vote for one of the answers to a question."""
+
     question = get_object_or_404(Question, pk=question_id)
 
     # Check if voting is allowed for this question
@@ -101,22 +114,53 @@ def vote(request, question_id):
         return redirect('polls:detail', question_id=question.id)
 
     try:
+        # Get the selected choice from the POST data
         selected_choice = question.choice_set.get(pk=request.POST["choice"])
     except (KeyError, Choice.DoesNotExist):
-        # Re-show the voting form for the question.
+        # Re-show the voting form for the question if choice is not selected
         messages.error(request, "You didn't select a choice.")
-        return render(
-            request,
-            "polls/detail.html",
-            {
-                "question": question,
-            },
-        )
-    else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+        return render(request, 'polls/detail.html', {'question': question})
 
+    recently_user = request.user
+
+    try:
+        # Check if the user has already voted for this choice
+        vote = Vote.objects.get(choice=selected_choice, user=recently_user)
+        vote.choice = selected_choice
+    except Vote.DoesNotExist:
+        # Create a new vote for the selected choice and user
+        vote = Vote.objects.create(choice=selected_choice, user=recently_user)
+
+    vote.save()
+    messages.success(request, f"Your vote for {selected_choice} has been saved.")
+
+    # Redirect to the results page for the question
+    return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+
+
+def signup(request):
+    """Register a new user."""
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # get named fields from the form data
+            username = form.cleaned_data.get('username')
+            # password input field is named 'password1'
+            raw_passwd = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_passwd)
+            login(request, user)
+            return redirect('polls:index')
+        # If the form is not valid, you can handle it here, e.g., display error messages.
+    else:
+        # create a user form and display it on the signup page
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
+
+@login_required
+def user_logout(request):
+    """Logout the user."""
+    logout(request)
+    messages.success(request, "You have been logged out successfully.")
+    return redirect('polls:index')
