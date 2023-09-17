@@ -1,0 +1,56 @@
+[
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$IySpQ7rIY8viQcrOdZnEbt$Xc5wBe8oyEIVf+JDx3uEl/9KiZv9CimnlIBv+x4EuVQ=",
+    "last_login": "2023-09-17T09:57:30.293Z",
+    "is_superuser": true,
+    "username": "skestudent",
+    "first_name": "",
+    "last_name": "",
+    "email": "nichakorn.cha@ku.th",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-09-02T16:26:20.081Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$VbhNFKhhnhdGSrf9a5nhJk$1DXdKcOs67AflyMEdbH9ztmH/bTg3N6fG/uTQxxvbpw=",
+    "last_login": "2023-09-17T09:58:56.746Z",
+    "is_superuser": false,
+    "username": "harry",
+    "first_name": "Harry",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-09-12T07:41:54.537Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$6i2sB4nW9EqOLPeHVLM1VM$ryQDAz936RGzYJSfcwh38yvqa9m8jERB2oZ+yCyKs7o=",
+    "last_login": "2023-09-17T12:12:40.751Z",
+    "is_superuser": false,
+    "username": "greenman",
+    "first_name": "Little Green Man",
+    "last_name": "",
+    "email": "aliens@toystory.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-09-17T12:07:55.519Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

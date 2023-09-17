@@ -132,7 +132,7 @@ def vote(request, question_id):
         vote = Vote.objects.create(choice=selected_choice, user=recently_user)
 
     vote.save()
-    messages.success(request, "Voted Succeed!")
+    messages.success(request, f"Your vote for {selected_choice} has been saved.")
 
     # Redirect to the results page for the question
     return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
