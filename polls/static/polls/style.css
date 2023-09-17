@@ -1,80 +1,101 @@
-body {
-    font-family: 'Arial', sans-serif;
-    background: #f0f0f0 url("images/background.png") no-repeat center center fixed;
-    background-size: cover;
-}
-
-/* Links in the list on the index page */
-li a {
-    color: #3498db;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-li a:hover {
-    color: #2980b9;
-}
-
-/* Poll question heading in results.html and detail.html */
-h1 {
-    background-color: #3498db;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
-}
-
-/* Unordered list in results.html */
-ul {
-    list-style-type: none;
+/* Reset default margin and padding */
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
     padding: 0;
 }
 
-/* Each list item in results.html */
-li {
-    margin-bottom: 10px;
-}
-
-/* "Vote again?" link in results.html */
-a {
-    text-decoration: none;
-    color: #2980b9;
-    font-weight: bold;
-    transition: color 0.3s;
-}
-
-a:hover {
-    color: #3498db;
-}
-
-/* Poll choices in detail.html */
-fieldset {
-    border: 2px solid #3498db;
-    padding: 10px;
-    border-radius: 5px;
-}
-
-/* Radio buttons and labels in detail.html */
-input[type="radio"] {
-    margin-right: 5px;
-}
-
-label {
+/* Set a background color and text color */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
     color: #333;
-    font-weight: normal;
 }
 
-/* "Vote" button in detail.html */
-input[type="submit"] {
+/* Header styles */
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.user-block {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.btn-login,
+.btn-logout {
     background-color: #3498db;
     color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
+    text-decoration: none;
+    padding: 10px 15px;
     border-radius: 5px;
+    font-weight: bold;
     transition: background-color 0.3s;
+    margin: 0 10px;
 }
 
-input[type="submit"]:hover {
+.btn-login:hover,
+.btn-logout:hover {
     background-color: #2980b9;
+}
+
+/* Question list styles */
+.question-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Question block styles */
+.question-block {
+    width: calc(50% - 20px); /* Two questions per row with spacing */
+    margin: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    background-color: #fff; /* Light background color */
+}
+
+.question-block:hover {
+    transform: scale(1.05);
+}
+
+.question-text {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Question action buttons */
+.question-actions {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.btn-vote,
+.btn-results {
+    background-color: #3498db;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    margin-right: 10px;
+}
+
+.btn-vote:hover,
+.btn-results:hover {
+    background-color: #2980b9;
+}
+
+.no-polls {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
 }

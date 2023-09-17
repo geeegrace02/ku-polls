@@ -5,6 +5,7 @@ from django.views import generic
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required  # Import the login_required decorator
+from django.contrib.auth import logout  # Import the logout function
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 
@@ -104,9 +105,6 @@ class ResultsView(generic.DetailView):
 @login_required
 def vote(request, question_id):
     """Vote for one of the answers to a question."""
-    user = request.user
-    print("current user is", user.id, "login", user.username)
-    print("Real name:", user.first_name, user.last_name)
 
     question = get_object_or_404(Question, pk=question_id)
 
@@ -116,27 +114,27 @@ def vote(request, question_id):
         return redirect('polls:detail', question_id=question.id)
 
     try:
+        # Get the selected choice from the POST data
         selected_choice = question.choice_set.get(pk=request.POST["choice"])
-        # Vote.objects.create(choice=selected_choice, user=user)
     except (KeyError, Choice.DoesNotExist):
-        # Re-show the voting form for the question.
+        # Re-show the voting form for the question if choice is not selected
         messages.error(request, "You didn't select a choice.")
-        return render(
-            request,
-            "polls/detail.html",
-            {
-                "question": question,
-            },
-        )
+        return render(request, 'polls/detail.html', {'question': question})
+
     recently_user = request.user
+
     try:
+        # Check if the user has already voted for this choice
         vote = Vote.objects.get(choice=selected_choice, user=recently_user)
         vote.choice = selected_choice
     except Vote.DoesNotExist:
-        # Create new vote
+        # Create a new vote for the selected choice and user
         vote = Vote.objects.create(choice=selected_choice, user=recently_user)
+
     vote.save()
     messages.success(request, "Voted Succeed!")
+
+    # Redirect to the results page for the question
     return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
 
 
@@ -158,3 +156,11 @@ def signup(request):
         # create a user form and display it on the signup page
         form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+
+@login_required
+def user_logout(request):
+    """Logout the user."""
+    logout(request)
+    messages.success(request, "You have been logged out successfully.")
+    return redirect('polls:index')

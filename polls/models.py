@@ -65,10 +65,6 @@ class Choice(models.Model):
     def votes(self):
         return Vote.objects.filter(choice=self).count()
 
-    # @votes.setter
-    # def votes(self, value):
-    #     self._votes = val
-
 
 class Vote(models.Model):
     """Records a Vote of a Choice by a User"""

@@ -4,7 +4,8 @@ from django.test import TestCase
 from django.utils import timezone
 from django.urls import reverse
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+# from django.contrib.auth import authenticate
+# from django.contrib.auth import views as auth_views
 from mysite import settings
 
 from .models import Question, Choice
@@ -247,7 +248,6 @@ class UserAuthTest(TestCase):
         response = self.client.post(login_url, form_data)
         # after a successful login, should redirect the browser somewhere
         self.assertEqual(302, response.status_code)
-        # should redirect us to the polls index page ("polls:index")
         self.assertRedirects(response, reverse(settings.LOGIN_REDIRECT_URL))
 
     def test_auth_required_to_vote(self):
@@ -264,8 +264,9 @@ class UserAuthTest(TestCase):
         form_data = {"choice": f"{choice.id}"}
         response = self.client.post(vote_url, form_data)
         # should be redirected to the login page
-        self.assertEqual(response.status_code, 302)  # could be 303
+        # self.assertEqual(response.status_code, 302)  # could be 303
         login_with_next = f"{reverse('login')}?next={vote_url}"
         self.assertRedirects(response, login_with_next)
+
 
 
