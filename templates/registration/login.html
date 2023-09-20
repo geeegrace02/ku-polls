@@ -3,34 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - KU Polls</title>
-    {% load static %}
+    <title>Login Page</title>
     <style>
-        /* Reset some default styles */
-        body, h1, form, table, th, td, button {
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-        }
-
-        /* Global Styles */
-        body {
-            background-color: #a2ffa8;
-            font-family: "Times New Roman", Times, serif;
-            text-align: center;
-            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
         .login-block {
+            background-color: #fff;
             max-width: 400px;
-            margin: 0 auto;
             padding: 20px;
-            background-color: #a2ffa8;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
         }
 
-        h1.page-title {
-            color: #333;
-            font-size: 36px;
-            margin-bottom: 20px;
+        h1 {
+            text-align: center;
+            color: #007BFF;
         }
 
         form {
@@ -39,43 +37,66 @@
 
         table {
             width: 100%;
-            border-collapse: collapse;
-            background-color: #FFFFFF;
         }
 
-        th, td {
+        table tr {
+            margin-bottom: 10px;
+        }
+
+        table td {
             padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-            color: #333;
         }
 
-        button {
-            background-color: #3498db;
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 20px;
-            border: none;
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s;
+            font-size: 16px;
         }
 
-        button:hover {
-            background-color: #2980b9;
+        button[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        input[type="hidden"] {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
     <div class="login-block">
-        <h1 class="page-title">Login</h1>
+        <h1>Login</h1>
         <form method="post">
             {% csrf_token %}
             <table>
                 {{ form.as_table }}
             </table>
             <button type="submit">Login</button>
-            <!-- If your app redirects the user to login before accessing some pages, then next contains the return URL -->
             <input type="hidden" name="next" value="{{ next }}" />
         </form>
     </div>

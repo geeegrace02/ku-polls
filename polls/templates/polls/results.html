@@ -4,106 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Results for: {{ question.question_text }}</title>
-    {% load static %}
     <style>
-        /* Reset some default styles */
-        body, h1, ul, li {
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f0f0f0;
             margin: 0;
             padding: 0;
-        }
-
-        /* Global Styles */
-        body {
-            background-color: #a2ffa8;
-            font-family: "Times New Roman", Times, serif;
-            text-align: center;
-            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            background-color: #fff;
+            max-width: 600px;
             padding: 20px;
-            background-color: #FFFFFF;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
-            color: #0056b3;
-            font-size: 36px;
+            text-align: center;
+            color: #007BFF;
             margin-bottom: 20px;
-            text-align: left; /* Align the title to the left */
         }
 
-        ul {
-            list-style-type: none;
+        .confirmation-container {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .confirmation-message {
+            font-size: 16px;
+        }
+
+        .result-list {
+            list-style: none;
             padding: 0;
         }
 
-        li {
+        .result-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 10px;
         }
 
         .choice-container {
-            background-color: #f0f0f0;
+            flex: 1;
+            background-color: #f8f9fa;
             padding: 10px;
             border-radius: 5px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
         }
 
         .choice-text {
-            font-size: 18px;
-            font-weight: bold;
-            text-align: left; /* Align the choice text to the left */
-            flex: 1; /* Take up available space */
+            font-size: 16px;
+            color: #333;
         }
 
         .vote-count {
             font-size: 16px;
-            color: #777;
-            text-align: left; /* Align the vote count to the left */
+            color: #007BFF;
         }
 
-        /* Back to List link styles */
         .back-to-list {
             display: block;
             text-align: center;
-            margin-top: 20px;
-            font-weight: bold;
             text-decoration: none;
-            color: #007bff;
-            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
         }
 
         .back-to-list:hover {
-            color: #0056b3;
-        }
-
-        /* Display confirmation message styles */
-        .confirmation-container {
-            background-color: #28a745;
-            color: #fff;
-            padding: 10px;
-            margin-top: 20px;
-            border-radius: 5px;
-            text-align: left; /* Align the confirmation message to the left */
-        }
-
-        .confirmation-message {
-            font-weight: bold;
-        }
-
-        .content {
-            min-height: calc(100vh - 90px);
-            padding-bottom: 60px;
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Results for: {{ question.question_text }}</h1>
-
         <!-- Display the confirmation message if it exists -->
         {% if messages %}
             <div class="confirmation-container">
@@ -114,7 +105,6 @@
                 </p>
             </div>
         {% endif %}
-
         <ul class="result-list">
             {% for choice in question.choice_set.all %}
                 <li>
