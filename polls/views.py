@@ -24,6 +24,21 @@ def index(request):
     return render(request, "polls/index.html", context)
 
 
+def detail(request, pk):
+    """
+        Displays the details of a specific question.
+
+        Args:
+            request: The HTTP request object.
+            pk: The ID of the question to display.
+
+        Returns:
+            Rendered HTML page displaying the question details.
+    """
+    question = get_object_or_404(Question, pk=pk)
+    return render(request, "polls/detail.html", {"question": question})
+
+
 def results(request, question_id):
     """
         Displays the results of a specific question.
@@ -95,6 +110,7 @@ def vote(request, question_id):
         messages.error(request, "Voting for this question is not allowed.")
         return redirect('polls:index', question_id=question.id)
 
+    # Render 'detail.html' template with 'question' for GET requests.
     if request.method == "GET":
         return render(request, 'polls/detail.html', {'question': question})
 
@@ -138,7 +154,6 @@ def signup(request):
             user = authenticate(username=username, password=raw_passwd)
             login(request, user)
             return redirect('polls:index')
-        # If the form is not valid, you can handle it here, e.g., display error messages.
     else:
         # create a user form and display it on the signup page
         form = UserCreationForm()
