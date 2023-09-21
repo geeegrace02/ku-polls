@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
-            background-color: #f0f0f0;
+            background-color: #D0E7D2;
             margin: 0;
             padding: 0;
             display: flex;
@@ -26,7 +26,7 @@
 
         h1 {
             text-align: center;
-            color: #007BFF;
+            color: #004225;
         }
 
         .user-actions {
@@ -36,13 +36,13 @@
 
         .user-actions a {
             text-decoration: none;
-            color: #007BFF;
+            color: #618264;
             margin: 0 10px;
             transition: color 0.3s ease;
         }
 
         .user-actions a:hover {
-            color: #0056b3;
+            color: #D0E7D2;
         }
 
         .poll-list {
@@ -51,7 +51,7 @@
         }
 
         .poll-item {
-            background-color: #f9f9f9;
+            background-color: #D0E7D2;
             border: 1px solid #ccc;
             border-radius: 10px;
             padding: 20px;
@@ -60,27 +60,59 @@
 
         .poll-item a {
             text-decoration: none;
-            color: #007BFF;
+            color: #004225;
             font-weight: bold;
             transition: color 0.3s ease;
         }
 
         .poll-item a:hover {
-            color: #0056b3;
+            color: #618264;
         }
 
         .no-polls {
             text-align: center;
             color: #777;
         }
+
+        .publish-date {
+            font-size: 14px;
+            color: #618264;
+        }
+
+        .vote-button {
+            display: flex;
+            justify-content: flex-end; /* This pushes the button to the right */
+        }
+
+        .vote-button {
+            background-color: #004225;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-size: 16px;
+            margin-left: 500px;
+            margin-bottom: 5px;
+        }
+
+        .vote-button:hover {
+            background-color: #618264;
+        }
+
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Welcome to KU Polls</h1>
 
         <div class="user-actions">
             {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    <a href="{% url 'admin:index' %}" target="_blank">Administration</a>
+            {% endif %}
                 <a href="{% url 'user_logout' %}">Logout</a>
                 <span>Welcome back {{ user.username }}!</span>
             {% else %}
@@ -96,6 +128,11 @@
                     <li class="poll-item">
                         <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
                         (<a href="{% url 'polls:results' question.id %}">Results</a>)
+                        <p class="publish-date">Published on: {{ question.pub_date|date:"F d, Y" }}</p>
+                        <form method="post" action="{% url 'polls:vote' question.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="vote-button">Vote</button>
+                        </form>
                     </li>
                 {% endfor %}
             </ul>

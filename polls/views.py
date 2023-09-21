@@ -19,7 +19,7 @@ def index(request):
     Returns:
         Rendered HTML page displaying the latest questions.
     """
-    latest_question_list = Question.objects.order_by("-pub_date")[:10]
+    latest_question_list = Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')
     context = {"latest_question_list": latest_question_list}
     return render(request, "polls/index.html", context)
 
