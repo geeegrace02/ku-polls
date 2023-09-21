@@ -118,13 +118,11 @@ def vote(request, question_id):
     try:
         # Get the selected choice from the POST data
         selected_choice = question.choice_set.get(pk=request.POST["choice"])
-    except (KeyError, Choice.DoesNotExist) as err:
-        print(err)
+    except (KeyError, Choice.DoesNotExist):
         # Re-show the voting form for the question if choice is not selected
         messages.error(request, "You didn't select a choice.")
         return render(request, 'polls/detail.html', {'question': question})
 
-    print(selected_choice)
     recently_user = request.user
 
     try:
