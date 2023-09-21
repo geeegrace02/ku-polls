@@ -3,121 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to KU Polls</title>
-    {% load static %}
+    <title>KU Polls</title>
     <style>
-        /* Reset some default styles */
-        body, h1, ul, li {
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #D0E7D2;
             margin: 0;
             padding: 0;
-        }
-
-        /* Global Styles */
-        body {
-            background-color: #a2ffa8;
-            font-family: "Times New Roman", Times, serif;
-            text-align: center;
-            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            background-color: #fff;
+            max-width: 800px;
             padding: 20px;
-            background-color: #a2ffa8;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
-            color: #333;
-            font-size: 36px;
+            text-align: center;
+            color: #004225;
         }
 
-        ul {
+        .messages-container {
+            background-color: #F8C4B4;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+
+        .messages-text {
+            font-size: 16px;
+            color: darkred;
+            font-weight: bold;
+        }
+
+        .user-actions {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .user-actions a {
+            text-decoration: none;
+            color: #618264;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .user-actions a:hover {
+            color: #D0E7D2;
+        }
+
+        .poll-list {
             list-style-type: none;
             padding: 0;
+        }
+
+        .poll-item {
+            background-color: #D0E7D2;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .poll-item .poll-link {
+            text-decoration: none;
+            color: #004225;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .poll-item .poll-link:hover {
+            color: #618264;
+        }
+
+        .poll-title {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
+            flex-direction: column;
+            font-weight: bold;
+            color: #004225;
         }
 
-        li {
-            width: calc(50% - 20px); /* Two boxes per row with spacing */
-            margin: 10px;
-            padding: 15px;
+        .poll-description {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 14px;
+        }
+
+        .no-polls {
+            text-align: center;
+            color: #777;
+        }
+
+        .publish-date {
+            font-size: 14px;
+            color: #618264;
+            margin-top: 10px;
+        }
+
+        .vote-button {
+            color: #FFFFFF;
+            background-color: #004225;
+            padding: 8px 16px;
             border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
             cursor: pointer;
-            display: inline-block;
-            box-sizing: border-box;
-            background-color: #FFFFFF;
-            border: 1px solid #ddd;
-            color: #333;
-        }
-
-        li:hover {
-            transform: scale(1.05);
-        }
-
-        a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        a:hover {
-            color: #0056b3;
-        }
-
-        .content {
-            min-height: calc(100vh - 90px);
-            padding-bottom: 60px;
-        }
-
-        .logout-button {
-            float: right;
-            margin-right: 10px;
-            background-color: #ff4747;
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: bold;
             transition: background-color 0.3s;
+            font-size: 16px;
+            text-decoration: none;
         }
 
-        .logout-button:hover {
-            background-color: #ff0000; /* Darker red on hover */
+        .vote-button:hover {
+            color: #004225;
+            background-color: #FFFFFF;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Welcome to KU Polls</h1>
-
-        <!-- Add the user authentication check -->
-        {% if user.is_authenticated %}
-            <a href="{% url 'user_logout' %}" class="logout-button">Logout</a>
-            <div>
-                <strong>
-                    Welcome back {{ user.username }}!
-                </strong>
-            </div>
-        {% else %}
-            <div><a href="{% url 'login' %}?next={{ request.path }}">Login</a></div>
+        <!-- Display the confirmation message if it exists -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="messages-container {% if message.tags %}messages-{{ message.tags }}{% endif %}">
+                    <p class="messages-text">{{ message }}</p>
+                </div>
+            {% endfor %}
         {% endif %}
 
+        <div class="user-actions">
+            {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    <a href="{% url 'admin:index' %}" target="_blank">Administration</a>
+                {% endif %}
+                <a href="{% url 'user_logout' %}">Logout</a>
+                <span>Welcome back {{ user.username }}!</span>
+            {% else %}
+                <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+                <span> </span>
+                <a href="{% url 'signup' %}">Signup</a>
+            {% endif %}
+        </div>
+
         {% if latest_question_list %}
-        <ul>
-            {% for question in latest_question_list %}
-                <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
-                    (<a href="{% url 'polls:results' question.id %}">Results</a>)
-                </li>
-            {% endfor %}
-        </ul>
+            <ul class="poll-list">
+                {% for question in latest_question_list %}
+                    <li class="poll-item">
+                        <div class="poll-title">
+                            <span>
+                                {{ question.question_text }} (<a href="{% url 'polls:results' question.id %}" class="poll-link">Results</a>)
+                            </span>
+                            <small class="publish-date">
+                                Published on: {{ question.pub_date|date:"F d, Y" }}
+                            </small>
+                        </div>
+                        <div class="poll-description">
+                            <a href="{% url 'polls:vote' question.id %}" class="vote-button">Vote</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
         {% else %}
-        <p>No polls are available.</p>
+            <p class="no-polls">No polls are available.</p>
         {% endif %}
     </div>
 </body>

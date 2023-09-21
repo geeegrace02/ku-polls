@@ -1,0 +1,4 @@
+[flake8]
+ignore = E123,E128,E731,F401
+max-line-length = 100
+exclude = migrations,mysite,*/__init__.py

@@ -22,9 +22,9 @@ from polls import views
 
 urlpatterns = [
     path("polls/", include("polls.urls")),
+    path('signup/', views.signup, name='signup'),
     path("admin/", admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('signup/', views.signup, name='signup'),
     path('logout/', auth_views.LogoutView.as_view(), name='user_logout'),
     path('', RedirectView.as_view(url='/polls/')),
 ]

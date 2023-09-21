@@ -19,7 +19,8 @@ def index(request):
     Returns:
         Rendered HTML page displaying the latest questions.
     """
-    latest_question_list = Question.objects.order_by("-pub_date")[:10]
+    latest_question_list = Question.objects.filter(pub_date__lte=timezone.now())\
+        .order_by('-pub_date')
     context = {"latest_question_list": latest_question_list}
     return render(request, "polls/index.html", context)
 
@@ -36,9 +37,6 @@ def detail(request, pk):
             Rendered HTML page displaying the question details.
     """
     question = get_object_or_404(Question, pk=pk)
-    if not question.can_vote():
-        messages.error(request, "Voting is not allowed")
-        return redirect('polls:index')
     return render(request, "polls/detail.html", {"question": question})
 
 
@@ -111,7 +109,11 @@ def vote(request, question_id):
     # Check if voting is allowed for this question
     if not question.can_vote():
         messages.error(request, "Voting for this question is not allowed.")
-        return redirect('polls:detail', question_id=question.id)
+        return redirect('polls:index', question_id=question.id)
+
+    # Render 'detail.html' template with 'question' for GET requests.
+    if request.method == "GET":
+        return render(request, 'polls/detail.html', {'question': question})
 
     try:
         # Get the selected choice from the POST data
@@ -125,7 +127,7 @@ def vote(request, question_id):
 
     try:
         # Check if the user has already voted for this choice
-        vote = Vote.objects.get(choice=selected_choice, user=recently_user)
+        vote = Vote.objects.get(user=recently_user, choice__question=question)
         vote.choice = selected_choice
     except Vote.DoesNotExist:
         # Create a new vote for the selected choice and user
@@ -151,7 +153,6 @@ def signup(request):
             user = authenticate(username=username, password=raw_passwd)
             login(request, user)
             return redirect('polls:index')
-        # If the form is not valid, you can handle it here, e.g., display error messages.
     else:
         # create a user form and display it on the signup page
         form = UserCreationForm()

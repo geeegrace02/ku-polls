@@ -10,7 +10,7 @@ This app was created as part of the [Individual Software Process](
 https://cpske.github.io/ISP) course at Kasetsart University.
 
 
-## Install and Run
+## [Install and How to Run](Installation.md)
 
 Follow these steps to install and run the KU Polls application 
 on your local development environment:
@@ -24,20 +24,51 @@ refer to [requirements.txt](./requirements.txt).
    git clone https://github.com/geeegrace02/ku-polls.git
     ```
 
-2. Install Dependencies: 
-   - Navigate to the project directory and install the necessary [requirements](./requirements.txt) dependencies.
+2. Create a Virtual Environment:
+   - Navigate to the project directory and create a virtual environment.
    ```
-    cd ku-polls
+   cd ku-polls
+   python -m venv venv
+   ```
+3. Activate the Virtual Environment:
+   - On Windows:
+   ```
+   venv\Scripts\activate
+   ```
+   - On macOS and Linux:
+   ```
+    source venv/bin/activate
+   ```
+
+4. Install Dependencies: 
+   - Install the necessary [requirements](./requirements.txt) dependencies.
+   ```
     pip install -r requirements.txt
-    ```
+   ```
+
+5. Set Values for Externalized Variables:
+   -  Set and can find sample values in the provided [sample.env](./sample.env) file.
+
+6. Run Migrations:
+   - Apply database migrations to set up the database schema.
+   ```
+   python manage.py migrate
+   ```
    
-3. Run the Application:
+7. Install data from the data fixtures:
+   ```
+   python manage.py loaddata data/polls.json
+   python manage.py loaddata data/users.json
+   ```
+   
+8. Run the Application:
     ```
    python manage.py runserver
     ```
-
-4. Access the Application:
+   
+9. Access the Application:
    - Open your web browser and go to `http://127.0.0.1:8000/`
+    
 
     
 ## Project Documents
@@ -47,12 +78,15 @@ All project documents are in the [Project Wiki](https://github.com/geeegrace02/k
 - [Vision Statement](https://github.com/geeegrace02/ku-polls/wiki/Vision-Statement)
 - [Requirements](https://github.com/geeegrace02/ku-polls/wiki/Requirements)
 - [Development Plan](https://github.com/geeegrace02/ku-polls/wiki/Development-Plan)
-- [Domain Model](https://github.com/geeegrace02/ku-polls/wiki/Domain-Model)
+  
 - [Iteration 1 Plan](https://github.com/geeegrace02/ku-polls/wiki/Iteration-1-Plan) and [Task Board](https://github.com/users/geeegrace02/projects/1/views/1)
 - [Iteration 2 Plan](https://github.com/geeegrace02/ku-polls/wiki/Iteration-2-Plan) and [Task Board](https://github.com/users/geeegrace02/projects/1/views/2)
-- [Iteration 3 Plan](https://github.com/geeegrace02/ku-polls/wiki/Iteration-3-Plan) and [Task Board](https://github.com/users/geeegrace02/projects/1/views/4)
+- [Iteration 3 Plan](https://github.com/geeegrace02/ku-polls/wiki/Iteration-3-Plan) , [Domain Model](https://github.com/geeegrace02/ku-polls/wiki/Domain-Model) and [Task Board](https://github.com/users/geeegrace02/projects/1/views/4)
+- [Iteration 4 Plan](https://github.com/geeegrace02/ku-polls/wiki/Iteration-4-Plan) and [Task Board](https://github.com/users/geeegrace02/projects/1/views/5)
 
 
+
+## Demo Accounts
 | Username | Password |
 |----------|----------|
 | harry    | hackme22 |
