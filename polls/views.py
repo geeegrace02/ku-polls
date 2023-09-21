@@ -24,24 +24,6 @@ def index(request):
     return render(request, "polls/index.html", context)
 
 
-def detail(request, pk):
-    """
-        Displays the details of a specific question.
-
-        Args:
-            request: The HTTP request object.
-            pk: The ID of the question to display.
-
-        Returns:
-            Rendered HTML page displaying the question details.
-    """
-    question = get_object_or_404(Question, pk=pk)
-    if not question.can_vote():
-        messages.error(request, "Voting is not allowed")
-        return redirect('polls:index')
-    return render(request, "polls/detail.html", {"question": question})
-
-
 def results(request, question_id):
     """
         Displays the results of a specific question.
@@ -111,21 +93,26 @@ def vote(request, question_id):
     # Check if voting is allowed for this question
     if not question.can_vote():
         messages.error(request, "Voting for this question is not allowed.")
-        return redirect('polls:detail', question_id=question.id)
+        return redirect('polls:index', question_id=question.id)
+
+    if request.method == "GET":
+        return render(request, 'polls/detail.html', {'question': question})
 
     try:
         # Get the selected choice from the POST data
         selected_choice = question.choice_set.get(pk=request.POST["choice"])
-    except (KeyError, Choice.DoesNotExist):
+    except (KeyError, Choice.DoesNotExist) as err:
+        print(err)
         # Re-show the voting form for the question if choice is not selected
         messages.error(request, "You didn't select a choice.")
         return render(request, 'polls/detail.html', {'question': question})
 
+    print(selected_choice)
     recently_user = request.user
 
     try:
         # Check if the user has already voted for this choice
-        vote = Vote.objects.get(choice=selected_choice, user=recently_user)
+        vote = Vote.objects.get(user=recently_user, choice__question=question)
         vote.choice = selected_choice
     except Vote.DoesNotExist:
         # Create a new vote for the selected choice and user

@@ -29,6 +29,20 @@
             color: #004225;
         }
 
+        .messages-container {
+            background-color: #F8C4B4;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+
+        .messages-text {
+            font-size: 16px;
+            color: darkred;
+            font-weight: bold;
+        }
+
         .user-actions {
             text-align: center;
             margin-bottom: 20px;
@@ -58,15 +72,28 @@
             margin: 20px 0;
         }
 
-        .poll-item a {
+        .poll-item .poll-link {
             text-decoration: none;
             color: #004225;
             font-weight: bold;
             transition: color 0.3s ease;
         }
 
-        .poll-item a:hover {
+        .poll-item .poll-link:hover {
             color: #618264;
+        }
+
+        .poll-title {
+            display: flex;
+            flex-direction: column;
+            font-weight: bold;
+            color: #004225;
+        }
+
+        .poll-description {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 14px;
         }
 
         .no-polls {
@@ -77,42 +104,44 @@
         .publish-date {
             font-size: 14px;
             color: #618264;
+            margin-top: 10px;
         }
 
         .vote-button {
-            display: flex;
-            justify-content: flex-end; /* This pushes the button to the right */
-        }
-
-        .vote-button {
+            color: #FFFFFF;
             background-color: #004225;
-            color: #fff;
-            border: none;
             padding: 8px 16px;
-            cursor: pointer;
             border-radius: 5px;
+            cursor: pointer;
             transition: background-color 0.3s;
             font-size: 16px;
-            margin-left: 500px;
-            margin-bottom: 5px;
+            text-decoration: none;
         }
 
         .vote-button:hover {
-            background-color: #618264;
+            color: #004225;
+            background-color: #FFFFFF;
         }
-
     </style>
 </head>
 
 <body>
     <div class="container">
         <h1>Welcome to KU Polls</h1>
+        <!-- Display the confirmation message if it exists -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="messages-container {% if message.tags %}messages-{{ message.tags }}{% endif %}">
+                    <p class="messages-text">{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
 
         <div class="user-actions">
             {% if user.is_authenticated %}
                 {% if user.is_staff %}
                     <a href="{% url 'admin:index' %}" target="_blank">Administration</a>
-            {% endif %}
+                {% endif %}
                 <a href="{% url 'user_logout' %}">Logout</a>
                 <span>Welcome back {{ user.username }}!</span>
             {% else %}
@@ -126,13 +155,17 @@
             <ul class="poll-list">
                 {% for question in latest_question_list %}
                     <li class="poll-item">
-                        <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
-                        (<a href="{% url 'polls:results' question.id %}">Results</a>)
-                        <p class="publish-date">Published on: {{ question.pub_date|date:"F d, Y" }}</p>
-                        <form method="post" action="{% url 'polls:vote' question.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="vote-button">Vote</button>
-                        </form>
+                        <div class="poll-title">
+                            <span>
+                                {{ question.question_text }} (<a href="{% url 'polls:results' question.id %}" class="poll-link">Results</a>)
+                            </span>
+                            <small class="publish-date">
+                                Published on: {{ question.pub_date|date:"F d, Y" }}
+                            </small>
+                        </div>
+                        <div class="poll-description">
+                            <a href="{% url 'polls:vote' question.id %}" class="vote-button">Vote</a>
+                        </div>
                     </li>
                 {% endfor %}
             </ul>

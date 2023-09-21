@@ -25,13 +25,26 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
-            align-items: center;
             margin-bottom: 40px; /* Add margin to separate the button */
         }
 
         h1 {
             text-align: center;
             color: #004225;
+        }
+
+        .messages-container {
+            background-color: #F8C4B4;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+
+        .messages-text {
+            font-size: 16px;
+            color: darkred;
+            font-weight: bold;
         }
 
         form {
@@ -60,6 +73,8 @@
             width: 100%;
             align-self: center;
             transition: background-color 0.3s ease;
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
 
         .vote-button:hover {
@@ -89,6 +104,15 @@
 <body>
     <div class="container">
         <h1>{{ question.question_text }}</h1>
+        <!-- Display the confirmation message if it exists -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="messages-container {% if message.tags %}messages-{{ message.tags }}{% endif %}">
+                    <p class="messages-text">{{ message }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <form id="vote-form" method="post" action="{% url 'polls:vote' question.id %}">
             {% csrf_token %}
             {% for choice in question.choice_set.all %}
