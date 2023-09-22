@@ -27,14 +27,14 @@ def index(request):
 
 def detail(request, pk):
     """
-        Displays the details of a specific question.
+    Displays the details of a specific question.
 
-        Args:
-            request: The HTTP request object.
-            pk: The ID of the question to display.
+    Args:
+        request: The HTTP request object.
+        pk: The ID of the question to display.
 
-        Returns:
-            Rendered HTML page displaying the question details.
+    Returns:
+        Rendered HTML page displaying the question details.
     """
     question = get_object_or_404(Question, pk=pk)
     return render(request, "polls/detail.html", {"question": question})
@@ -42,14 +42,14 @@ def detail(request, pk):
 
 def results(request, question_id):
     """
-        Displays the results of a specific question.
+    Displays the results of a specific question.
 
-        Args:
-            request: The HTTP request object.
-            question_id: The ID of the question to display results for.
+    Args:
+        request: The HTTP request object.
+        question_id: The ID of the question to display results for.
 
-        Returns:
-            Rendered HTML page displaying the question results.
+    Returns:
+        Rendered HTML page displaying the question results.
     """
     question = get_object_or_404(Question, pk=question_id)
     return render(request, 'polls/results.html', {'question': question})
@@ -65,7 +65,7 @@ class IndexView(generic.ListView):
         published in the future and questions with end_date in the past).
         """
         now = timezone.now()
-        return Question.objects.filter(pub_date__lte=now).order_by("-pub_date")[:10]
+        return Question.objects.filter(pub_date__lte=now).order_by("-pub_date")[:12]
 
 
 class DetailView(generic.DetailView):
