@@ -4,7 +4,7 @@
   "pk": 2,
   "fields": {
     "question_text": "What's your preferred programming language?",
-    "pub_date": "2023-09-02T16:05:13Z",
+    "pub_date": "2023-09-02T05:00:00Z",
     "end_date": "2024-12-31T05:00:00Z"
   }
 },
@@ -13,7 +13,7 @@
   "pk": 3,
   "fields": {
     "question_text": "Which social media platform do you use the most?",
-    "pub_date": "2023-09-02T16:06:37Z",
+    "pub_date": "2023-09-02T05:30:00Z",
     "end_date": "2024-12-31T05:00:00Z"
   }
 },
@@ -22,8 +22,8 @@
   "pk": 4,
   "fields": {
     "question_text": "What's your favorite type of music?",
-    "pub_date": "2023-09-02T16:12:16Z",
-    "end_date": null
+    "pub_date": "2023-09-05T05:00:00Z",
+    "end_date": "2024-12-31T05:00:00Z"
   }
 },
 {
@@ -31,7 +31,7 @@
   "pk": 5,
   "fields": {
     "question_text": "What's your preferred type of coffee or tea?",
-    "pub_date": "2023-09-02T16:13:36Z",
+    "pub_date": "2023-09-05T05:30:00Z",
     "end_date": "2024-12-31T05:00:00Z"
   }
 },
@@ -40,7 +40,7 @@
   "pk": 6,
   "fields": {
     "question_text": "Which movie genre do you enjoy the most?",
-    "pub_date": "2023-09-02T16:14:50Z",
+    "pub_date": "2023-09-08T05:00:00Z",
     "end_date": "2024-12-31T05:00:00Z"
   }
 },
@@ -49,7 +49,7 @@
   "pk": 7,
   "fields": {
     "question_text": "Which superhero would you want to team up with to save the world?",
-    "pub_date": "2023-09-02T16:16:06Z",
+    "pub_date": "2023-09-08T05:30:00Z",
     "end_date": "2024-12-31T05:00:00Z"
   }
 },
@@ -58,7 +58,7 @@
   "pk": 8,
   "fields": {
     "question_text": "If you could have any superpower, which one would you choose?",
-    "pub_date": "2023-09-02T16:17:07Z",
+    "pub_date": "2023-09-11T05:00:00Z",
     "end_date": "2024-12-31T05:00:00Z"
   }
 },
@@ -67,7 +67,7 @@
   "pk": 9,
   "fields": {
     "question_text": "If you could visit any fictional world, where would you go?",
-    "pub_date": "2023-09-02T16:18:17Z",
+    "pub_date": "2023-09-11T05:30:00Z",
     "end_date": "2024-12-31T05:00:00Z"
   }
 },
@@ -76,7 +76,7 @@
   "pk": 10,
   "fields": {
     "question_text": "What's your favorite Korean drama series genre?",
-    "pub_date": "2023-09-02T16:19:12Z",
+    "pub_date": "2023-09-16T05:00:00Z",
     "end_date": "2024-12-31T05:00:00Z"
   }
 },
@@ -85,7 +85,25 @@
   "pk": 11,
   "fields": {
     "question_text": "Which is your all-time favorite Korean drama?",
-    "pub_date": "2023-09-02T16:19:54Z",
+    "pub_date": "2023-09-16T05:30:00Z",
+    "end_date": "2024-12-31T05:00:00Z"
+  }
+},
+{
+  "model": "polls.question",
+  "pk": 12,
+  "fields": {
+    "question_text": "Which streaming platform do you use for movies and TV shows?",
+    "pub_date": "2023-09-21T03:00:00Z",
+    "end_date": "2024-12-31T05:00:00Z"
+  }
+},
+{
+  "model": "polls.question",
+  "pk": 13,
+  "fields": {
+    "question_text": "What's your favorite type of cuisine?",
+    "pub_date": "2023-09-21T05:00:00Z",
     "end_date": "2024-12-31T05:00:00Z"
   }
 },
@@ -490,6 +508,182 @@
   }
 },
 {
+  "model": "polls.choice",
+  "pk": 54,
+  "fields": {
+    "question": 2,
+    "choice_text": "Other"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 55,
+  "fields": {
+    "question": 3,
+    "choice_text": "Other"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 56,
+  "fields": {
+    "question": 4,
+    "choice_text": "Other"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 57,
+  "fields": {
+    "question": 5,
+    "choice_text": "Other"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 58,
+  "fields": {
+    "question": 6,
+    "choice_text": "Other"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 59,
+  "fields": {
+    "question": 7,
+    "choice_text": "Other"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 60,
+  "fields": {
+    "question": 8,
+    "choice_text": "Other"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 61,
+  "fields": {
+    "question": 9,
+    "choice_text": "Other"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 62,
+  "fields": {
+    "question": 10,
+    "choice_text": "Other"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 63,
+  "fields": {
+    "question": 11,
+    "choice_text": "Other"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 64,
+  "fields": {
+    "question": 12,
+    "choice_text": "Netflix"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 65,
+  "fields": {
+    "question": 12,
+    "choice_text": "Amazon Prime Video"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 66,
+  "fields": {
+    "question": 12,
+    "choice_text": "Disney+"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 67,
+  "fields": {
+    "question": 12,
+    "choice_text": "Hulu"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 68,
+  "fields": {
+    "question": 12,
+    "choice_text": "HBO Max"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 69,
+  "fields": {
+    "question": 12,
+    "choice_text": "Other"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 70,
+  "fields": {
+    "question": 13,
+    "choice_text": "Italian"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 71,
+  "fields": {
+    "question": 13,
+    "choice_text": "Indian"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 72,
+  "fields": {
+    "question": 13,
+    "choice_text": "Japanese"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 73,
+  "fields": {
+    "question": 13,
+    "choice_text": "Chinese"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 74,
+  "fields": {
+    "question": 13,
+    "choice_text": "Thai"
+  }
+},
+{
+  "model": "polls.choice",
+  "pk": 75,
+  "fields": {
+    "question": 13,
+    "choice_text": "Other"
+  }
+},
+{
   "model": "polls.vote",
   "pk": 1,
   "fields": {
@@ -565,7 +759,7 @@
   "model": "polls.vote",
   "pk": 10,
   "fields": {
-    "choice": 32,
+    "choice": 33,
     "user": 2
   }
 },
@@ -685,8 +879,152 @@
   "model": "polls.vote",
   "pk": 25,
   "fields": {
-    "choice": 16,
+    "choice": 17,
     "user": 3
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 26,
+  "fields": {
+    "choice": 50,
+    "user": 4
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 27,
+  "fields": {
+    "choice": 41,
+    "user": 4
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 28,
+  "fields": {
+    "choice": 74,
+    "user": 4
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 29,
+  "fields": {
+    "choice": 70,
+    "user": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 30,
+  "fields": {
+    "choice": 72,
+    "user": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 31,
+  "fields": {
+    "choice": 75,
+    "user": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 32,
+  "fields": {
+    "choice": 40,
+    "user": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 33,
+  "fields": {
+    "choice": 65,
+    "user": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 34,
+  "fields": {
+    "choice": 64,
+    "user": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 35,
+  "fields": {
+    "choice": 69,
+    "user": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 36,
+  "fields": {
+    "choice": 68,
+    "user": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 37,
+  "fields": {
+    "choice": 67,
+    "user": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 38,
+  "fields": {
+    "choice": 66,
+    "user": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 39,
+  "fields": {
+    "choice": 71,
+    "user": 3
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 40,
+  "fields": {
+    "choice": 68,
+    "user": 3
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 41,
+  "fields": {
+    "choice": 48,
+    "user": 3
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 42,
+  "fields": {
+    "choice": 21,
+    "user": 2
+  }
+},
+{
+  "model": "polls.vote",
+  "pk": 43,
+  "fields": {
+    "choice": 6,
+    "user": 2
   }
 }
 ]
