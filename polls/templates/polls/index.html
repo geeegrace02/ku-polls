@@ -45,7 +45,8 @@
 
         .user-actions {
             text-align: center;
-            margin-bottom: 20px;
+            margin-top: 30px;
+            margin-bottom: 30px;
         }
 
         .user-actions a {
@@ -88,6 +89,7 @@
             flex-direction: column;
             font-weight: bold;
             color: #004225;
+            font-size: 18px;
         }
 
         .poll-description {
@@ -152,26 +154,36 @@
         </div>
 
         {% if latest_question_list %}
-            <ul class="poll-list">
-                {% for question in latest_question_list %}
-                    <li class="poll-item">
-                        <div class="poll-title">
-                            <span>
-                                {{ question.question_text }} (<a href="{% url 'polls:results' question.id %}" class="poll-link">Results</a>)
+        <ul class="poll-list">
+            {% for question in latest_question_list %}
+                <li class="poll-item">
+                    <div class="poll-title">
+                        <span>
+                            {{ question.question_text }} (<a href="{% url 'polls:results' question.id %}" class="poll-link">Results</a>)
+                        </span>
+                        <small class="publish-date">
+                            Published Date: {{ question.pub_date|date:"F d, Y" }}
+                            {% if question.end_date %}
+                                <br>End Date: {{ question.end_date|date:"F d, Y" }}
+                            {% endif %}
+                            <br>Status: <span style="color: {% if question.can_vote %}green{% else %}red{% endif %};">
+                            {% if question.can_vote %}
+                                Open
+                            {% else %}
+                                Closed
+                            {% endif %}
                             </span>
-                            <small class="publish-date">
-                                Published on: {{ question.pub_date|date:"F d, Y" }}
-                            </small>
-                        </div>
-                        <div class="poll-description">
-                            <a href="{% url 'polls:vote' question.id %}" class="vote-button">Vote</a>
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p class="no-polls">No polls are available.</p>
-        {% endif %}
-    </div>
+                        </small>
+                    </div>
+                    <div class="poll-description">
+                        <a href="{% url 'polls:vote' question.id %}" class="vote-button">Vote</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-polls">No polls are available.</p>
+    {% endif %}
+</div>
 </body>
 </html>
