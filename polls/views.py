@@ -36,7 +36,21 @@ def detail(request, pk):
     Returns:
         Rendered HTML page displaying the question details.
     """
-    question = get_object_or_404(Question, pk=pk)
+    # question = get_object_or_404(Question, pk=pk)
+    # return render(request, "polls/detail.html", {"question": question})
+
+    try:
+        question = Question.objects.get(pk=pk)
+    except Question.DoesNotExist:
+        # If the question does not exist, you can redirect to another page.
+        messages.error(request, "The poll you requested does not exist.")
+        return redirect('polls:index')  # Redirect to the polls index page
+
+        # Check if voting is allowed for this question
+    if not question.can_vote():
+        messages.error(request, "Voting is not allowed for this poll.")
+        return redirect('polls:index')
+
     return render(request, "polls/detail.html", {"question": question})
 
 
@@ -104,12 +118,19 @@ class ResultsView(generic.DetailView):
 def vote(request, question_id):
     """Vote for one of the answers to a question."""
 
-    question = get_object_or_404(Question, pk=question_id)
+    # question = get_object_or_404(Question, pk=question_id)
+
+    # Check if the question exists
+    try:
+        question = Question.objects.get(pk=question_id)
+    except Question.DoesNotExist:
+        messages.error(request, "The poll you requested does not exist.")
+        return redirect('polls:index')  # Redirect to the polls index page
 
     # Check if voting is allowed for this question
     if not question.can_vote():
         messages.error(request, "Voting for this question is not allowed.")
-        return redirect('polls:index', question_id=question.id)
+        return redirect('polls:index')
 
     # Render 'detail.html' template with 'question' for GET requests.
     if request.method == "GET":
